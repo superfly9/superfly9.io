@@ -5,48 +5,15 @@ import { MoreStories } from "@/app/_components/more-stories";
 import { Input } from "@/components/ui/input";
 import { Post } from "@/interfaces/post";
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearch } from "@/hooks/useSearch";
 
 interface Props {
   allPosts: Post[];
 }
 
 export default function SearchFilter({ allPosts }: Props) {
-  const [filtered, setFiltered] = useState<Post[]>(allPosts);
-
-  const searchParams = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
-  const router = useRouter();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
-    const params = new URLSearchParams(searchParams);
-
-    if (value) {
-      params.set("search", value);
-    } else {
-      params.delete("search");
-    }
-
-    router.replace(`?${params.toString()}`);
-  };
-
-  useEffect(() => {
-    if (searchTerm) {
-      setSearchTerm(searchTerm);
-      const lower = searchTerm.toLowerCase();
-      const filteredPosts = allPosts.filter(
-        (post) =>
-          post.title.toLowerCase().includes(lower) ||
-          post.content.toLowerCase().includes(lower)
-      );
-      setFiltered(filteredPosts);
-    }
-  }, [searchTerm]);
+  const { searchTerm, handleChange, filtered } = useSearch(allPosts);
 
   return (
     <>
