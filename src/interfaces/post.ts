@@ -1,5 +1,6 @@
 import { type Author } from "./author";
 
+export type Category = "daily" | "dev";
 export type Post = {
   slug: string;
   title: string;
@@ -10,6 +11,7 @@ export type Post = {
   ogImage: {
     url: string;
   };
+  category: Category
   content: string;
   preview?: boolean;
 };

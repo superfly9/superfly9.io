@@ -6,9 +6,9 @@ import { join } from "path";
 const postsDirectory = join(process.cwd(), "_posts");
 
 export function getPostWithCategory() {
-  const categories =  fs.readdirSync(postsDirectory).filter(category=>
+  const categoryDirectories = fs.readdirSync(postsDirectory)
+  const categories =  categoryDirectories.filter(category=>
     fs.statSync(join(postsDirectory, category)).isDirectory());
-
   let slugs = []
   for (const category of categories) {
     const categoryPath = join(postsDirectory, category);
@@ -32,7 +32,7 @@ export function getPostBySlug(slug: string) {
 }
 
 export function getAllPosts(): Post[] {
-  const slugs = getPostWithCategory(); // [ 'dev/dynamic-routing.md', 'dev/hello-world.md', 'dev/preview.md' ]
+  const slugs = getPostWithCategory();  // [daily/2025-04-04.md, dev/~.md]
   const posts = slugs
     .map((slug) => getPostBySlug(slug))
     .filter(((post): post is Post=>post !==null))

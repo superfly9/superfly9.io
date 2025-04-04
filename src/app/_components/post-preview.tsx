@@ -9,6 +9,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import type { Category } from "@/interfaces/post";
 
 type Props = {
   title: string;
@@ -16,6 +17,7 @@ type Props = {
   date: string;
   excerpt: string;
   author: Author;
+  category: Category;
   slug: string;
 };
 
@@ -25,6 +27,7 @@ export function PostPreview({
   date,
   excerpt,
   author,
+  category,
   slug,
 }: Props) {
   return (
@@ -34,7 +37,7 @@ export function PostPreview({
       </div>
       <CardHeader>
         <h3 className="text-3xl mb-3 leading-snug">
-          <Link href={`/posts/${slug}`} className="hover:underline">
+          <Link href={`/posts/${category}/${slug}`} className="hover:underline">
             {title}
           </Link>
         </h3>

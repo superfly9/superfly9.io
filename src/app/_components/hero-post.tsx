@@ -3,6 +3,7 @@ import CoverImage from "@/app/_components/cover-image";
 import { type Author } from "@/interfaces/author";
 import Link from "next/link";
 import DateFormatter from "./date-formatter";
+import { Category } from "@/interfaces/post";
 
 type Props = {
   title: string;
@@ -11,6 +12,7 @@ type Props = {
   excerpt: string;
   author: Author;
   slug: string;
+  category: Category;
 };
 
 export function HeroPost({
@@ -20,6 +22,7 @@ export function HeroPost({
   excerpt,
   author,
   slug,
+  category,
 }: Props) {
   return (
     <section>
@@ -29,7 +32,10 @@ export function HeroPost({
       <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
         <div>
           <h3 className="mb-4 text-4xl lg:text-5xl leading-tight">
-            <Link href={`/posts/${slug}`} className="hover:underline">
+            <Link
+              href={`/posts/${category}/${slug}`}
+              className="hover:underline"
+            >
               {title}
             </Link>
           </h3>

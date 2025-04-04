@@ -4,7 +4,6 @@ import SearchFilter from "@/components/SearchFilter";
 import { getAllPosts } from "@/lib/api";
 
 const allPosts = getAllPosts();
-
 export default function Index() {
   return (
     <main>

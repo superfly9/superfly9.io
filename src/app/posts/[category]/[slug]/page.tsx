@@ -8,10 +8,11 @@ import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
+import { Category } from "@/interfaces/post";
 
-export default async function Post(props: Params) {
-  const params = await props.params;
-  const post = getPostBySlug(params.slug);
+export default async function Post({ params }: Params) {
+  const { category, slug } = params;
+  const post = getPostBySlug(`${category}/${slug}`);
 
   if (!post) {
     return notFound();
@@ -39,20 +40,20 @@ export default async function Post(props: Params) {
 }
 
 type Params = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+    category: Category;
+  };
 };
 
-export async function generateMetadata(props: Params): Promise<Metadata> {
-  const params = await props.params;
-  const post = getPostBySlug(params.slug);
-
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { category, slug } = params;
+  const post = getPostBySlug(`${category}/${slug}`);
   if (!post) {
     return notFound();
   }
 
-  const title = `${post.title} | Next.js Blog Example with ${CMS_NAME}`;
+  const title = `${post.title} | ${CMS_NAME}`;
 
   return {
     title,
