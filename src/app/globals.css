@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.switch {
+  all: unset;
+  position: absolute;
+  right: 20px;
+  top: 70px;
+  display: inline-block;
+  color: currentColor;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 1px dashed currentColor;
+  cursor: pointer;
+  --size: 24px;
+  height: var(--size);
+  width: var(--size);
+  transition: all 0.3s ease-in-out 0s !important;
+}
+
+.mode-system .switch::after {
+  content: "A";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  font-weight: 600;
+  font-size: calc(var(--size) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode-light .switch {
+  box-shadow: 0 0 50px 10px yellow;
+  background-color: yellow;
+  border: none;
+}
+
+.mode-dark .switch {
+  box-shadow: calc(var(--size) / 4) calc(var(--size) / -4) calc(var(--size) / 8)
+    inset #fff;
+  border: none;
+  background: transparent;
+  animation: rotateAtChange linear 0.5s;
+}
+.mode-system .switch::after {
+  content: "A";
+}
+.mode-light .switch::after {
+  content: "☀️";
+}
+
+@keyframes rotateAtChange {
+  40% {
+    transform: rotate(-15deg);
+  }
+  80% {
+    transform: rotate(10deg);
+  }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
