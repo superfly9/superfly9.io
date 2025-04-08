@@ -2,88 +2,70 @@
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Post, Category } from "@/interfaces/post";
+import { Post } from "@/interfaces/post";
 
-export function useSearchAndFilter(allPosts: Post[]) {
+export function useSearchAndFilter(posts: Post[]) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
-  // Search state
+  // URL에서 초기값 가져오기
   const [searchTerm, setSearchTerm] = useState(() => searchParams.get("search") || "");
-  
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    () => (searchParams.get("category") as Category) || null
-  );
-  
-  // Combined filtered results
-  const [filtered, setFiltered] = useState<Post[]>(allPosts);
+  const [selectedCategory, setSelectedCategory] = useState(() => searchParams.get("category") || "all");
 
-  // Get unique authors and categories for filter options
-  const categories = Array.from(new Set(allPosts.map((post) => post.category)));
+  const [filteredPosts, setFilteredPosts] = useState(posts);
 
-  // Update URL parameters
-  const updateParams = (type: "search" | "author" | "category", value: string | null) => {
-    const params = new URLSearchParams(searchParams);
+  const categories = Array.from(new Set(posts.map((post) => post.category)));
+
+  const updateURL = (params: { search?: string; category?: string }) => {
+    const newParams = new URLSearchParams(searchParams.toString());
     
-    if (value) {
-      params.set(type, value);
-    } else {
-      params.delete(type);
-    }
+    Object.entries(params).forEach(([key, value]) => {
+      if (value && value !== "all") {
+        newParams.set(key, value);
+      } else {
+        newParams.delete(key);
+      }
+    });
 
-    const query = params.toString();
+    const query = newParams.toString();
     router.replace(query ? `${pathname}?${query}` : pathname);
   };
 
-  // Search handlers
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const handleSearch = (value: string) => {
     setSearchTerm(value);
-    updateParams("search", value || null);
+    updateURL({ search: value || undefined });
   };
 
-
-  const handleCategoryChange = (category: Category | null) => {
-    setSelectedCategory(category);
-    updateParams("category", category);
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    updateURL({ category: value });
   };
 
   useEffect(() => {
-    const search = searchParams.get("search")?.toLowerCase() || "";
-    const category = searchParams.get("category") as Category | null;
-    
-    setSearchTerm(search);
-    setSelectedCategory(category);
+    let result = posts;
 
-    let result = allPosts;
-
-    if (search) {
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
       result = result.filter(
-        (post) =>
-          post.title.toLowerCase().includes(search) ||
-          post.content.toLowerCase().includes(search)
+        post =>
+          post.title.toLowerCase().includes(searchLower) ||
+          post.excerpt.toLowerCase().includes(searchLower)
       );
     }
 
-    if (category) {
-      result = result.filter((post) => post.category === category);
+    if (selectedCategory && selectedCategory !== "all") {
+      result = result.filter(post => post.category === selectedCategory);
     }
 
-    setFiltered(result);
-  }, [searchParams, allPosts]);
+    setFilteredPosts(result);
+  }, [searchTerm, selectedCategory, posts]);
 
   return {
-    // url관련
     searchTerm,
-    handleSearchChange,
-    
-    // filter 관련
     selectedCategory,
-    categories,
+    filteredPosts,
+    handleSearch,
     handleCategoryChange,
-    
-    // 검색 결과
-    filtered,
+    categories,
   };
 } 

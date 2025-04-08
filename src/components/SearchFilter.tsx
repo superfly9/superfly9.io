@@ -1,93 +1,51 @@
 "use client";
 
-import { HeroPost } from "@/app/_components/hero-post";
-import { MoreStories } from "@/app/_components/more-stories";
 import { Input } from "@/components/ui/input";
-import { Post } from "@/interfaces/post";
-import { useSearchAndFilter } from "@/hooks/useSearchAndFilter";
-import { PostPreview } from "@/app/_components/post-preview";
-import EmptyMessage from "@/app/_components/EmptyMessage";
-import FilterBar from "@/components/FilterBar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-interface Props {
-  allPosts: Post[];
+interface SearchFilterProps {
+  searchTerm: string;
+  selectedCategory: string;
+  categories: string[];
+  onSearch: (value: string) => void;
+  onCategoryChange: (value: string) => void;
 }
 
-export default function SearchFilter({ allPosts }: Props) {
-  const {
-    searchTerm,
-    handleSearchChange,
-    selectedCategory,
-    categories,
-    handleCategoryChange,
-    filtered,
-  } = useSearchAndFilter(allPosts);
-
-  const isSearching = searchTerm.trim().length > 0;
-  const hasFilters = selectedCategory !== null;
-  const hasSearchResults = filtered.length > 0;
-  const hasPosts = allPosts.length > 0;
-  const hasMoreThanOnePost = allPosts.length > 1;
-
+export function SearchFilter({
+  searchTerm,
+  selectedCategory,
+  categories,
+  onSearch,
+  onCategoryChange,
+}: SearchFilterProps) {
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
-        <Input
-          placeholder="검색어를 입력하세요"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="w-full"
-        />
-      </div>
-
-      <FilterBar
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onCategoryChange={handleCategoryChange}
+    <div className="flex flex-col gap-4 mb-8 sm:flex-row">
+      <Input
+        type="search"
+        placeholder="검색어를 입력하세요..."
+        value={searchTerm}
+        onChange={(e) => onSearch(e.target.value)}
+        className="flex-1"
       />
-
-      {isSearching || hasFilters ? (
-        // 검색 또는 필터 결과 표시
-        <>
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold">
-              {isSearching && `'${searchTerm}' 검색 결과`}
-              {hasFilters && ` 필터링 결과`}
-              {` (${filtered.length}건)`}
-            </h2>
-          </div>
-          {hasSearchResults ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {filtered.map((post) => (
-                <PostPreview
-                  key={post.slug}
-                  title={post.title}
-                  coverImage={post.coverImage}
-                  date={post.date}
-                  author={post.author}
-                  category={post.category}
-                  slug={post.slug}
-                  excerpt={post.excerpt}
-                />
-              ))}
-            </div>
-          ) : (
-            <EmptyMessage>검색 결과가 없습니다.</EmptyMessage>
-          )}
-        </>
-      ) : (
-        // 검색어와 필터가 없을 때 화면
-        <>
-          {hasPosts ? (
-            <>
-              <HeroPost {...allPosts[0]} />
-              {hasMoreThanOnePost && <MoreStories posts={allPosts.slice(1)} />}
-            </>
-          ) : (
-            <EmptyMessage>등록된 포스트가 없습니다.</EmptyMessage>
-          )}
-        </>
-      )}
+      <Select value={selectedCategory} onValueChange={onCategoryChange}>
+        <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectValue placeholder="카테고리 선택" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">전체</SelectItem>
+          {categories.map((category) => (
+            <SelectItem key={category} value={category}>
+              {category === "daily" ? "일상" : "개발"}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }

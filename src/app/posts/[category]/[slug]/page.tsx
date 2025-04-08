@@ -13,6 +13,7 @@ import { Category } from "@/interfaces/post";
 export default async function Post({ params }: Params) {
   const { category, slug } = params;
   const post = getPostBySlug(`${category}/${slug}`);
+  console.log(post);
 
   if (!post) {
     return notFound();

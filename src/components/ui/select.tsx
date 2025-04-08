@@ -203,7 +203,7 @@ export const SelectComponent = ({
     <div ref={selectRef} className={`relative ${className || ""}`}>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
+          return React.cloneElement(child as React.ReactElement<any>, {
             isOpen,
             setIsOpen,
             value,

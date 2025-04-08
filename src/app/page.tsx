@@ -1,16 +1,9 @@
-import Container from "@/app/_components/container";
-import { Intro } from "@/app/_components/intro";
-import SearchFilter from "@/components/SearchFilter";
 import { getAllPosts } from "@/lib/api";
+import { ClientPage } from "@/components/ClientPage";
 
-const allPosts = getAllPosts();
-export default function Index() {
-  return (
-    <main>
-      <Container>
-        <Intro />
-        <SearchFilter allPosts={allPosts} />
-      </Container>
-    </main>
-  );
+export default function Home() {
+  const posts = getAllPosts();
+  const categories = Array.from(new Set(posts.map((post) => post.category)));
+
+  return <ClientPage initialPosts={posts} categories={categories} />;
 }
