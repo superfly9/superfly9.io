@@ -13,7 +13,6 @@ import { Category } from "@/interfaces/post";
 export default async function Post({ params }: Params) {
   const { category, slug } = params;
   const post = getPostBySlug(`${category}/${slug}`);
-  console.log(post);
 
   if (!post) {
     return notFound();
@@ -67,8 +66,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-
   return posts.map((post) => ({
+    category: post.category,
     slug: post.slug,
   }));
 }

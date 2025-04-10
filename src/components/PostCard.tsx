@@ -9,7 +9,7 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   return (
     <article className="rounded-lg border p-4 hover:border-gray-400 transition-colors">
-      <Link href={`/posts/${post.slug}`}>
+      <Link href={`/posts/${post.category}/${post.slug}`}>
         <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
       </Link>
       <div className="text-sm text-gray-500 mb-2">
