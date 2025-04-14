@@ -8,11 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Category } from "@/interfaces/post";
 
 interface SearchFilterProps {
   searchTerm: string;
   selectedCategory: string;
-  categories: string[];
+  categories: Category[];
   onSearch: (value: string) => void;
   onCategoryChange: (value: string) => void;
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import { Post } from "@/interfaces/post";
+import { Category, Post } from "@/interfaces/post";
 import { PostCard } from "@/components/PostCard";
 import { SearchFilter } from "@/components/SearchFilter";
 import { useSearchAndFilter } from "@/hooks/useSearchAndFilter";
 
 interface ClientPageProps {
   initialPosts: Post[];
-  categories: string[];
+  categories: Category[];
 }
 // 검색,필터링 및 UI 렌더링
 export function ClientPage({ initialPosts, categories }: ClientPageProps) {
