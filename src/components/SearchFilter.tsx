@@ -15,7 +15,7 @@ interface SearchFilterProps {
   selectedCategory: string;
   categories: Category[];
   onSearch: (value: string) => void;
-  onCategoryChange: (value: string) => void;
+  onCategoryChange: (value: Category) => void;
 }
 
 export function SearchFilter({

@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ColorSchemePreference, modes, STORAGE_KEY } from "@/constants/theme";
+import { ColorSchemePreference, STORAGE_KEY } from "@/constants/theme";
 
-const Switch = () => {
-  const [mode, setMode] = useState<ColorSchemePreference>("system");
+const DEFAULT_MODE = "light";
+const ThemeSwitcher = () => {
+  const [mode, setMode] = useState<ColorSchemePreference>(DEFAULT_MODE);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY) as ColorSchemePreference;
-    setMode(saved ?? "system");
+    const saved = localStorage.getItem(STORAGE_KEY);
+    setMode(saved === "dark" ? "dark" : "light");
     window.updateDOM();
   }, []);
 
@@ -18,12 +19,11 @@ const Switch = () => {
   }, [mode]);
 
   const handleModeSwitch = () => {
-    const index = modes.indexOf(mode);
-    const next = modes[(index + 1) % modes.length];
+    const next = mode === "dark" ? "light" : "dark";
     setMode(next);
   };
 
   return <button className="switch" onClick={handleModeSwitch} />;
 };
 
-export const ThemeSwitcher = () => <Switch />;
+export default ThemeSwitcher;

@@ -8,26 +8,25 @@ import {
 } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { SearchFilter } from "@/components/SearchFilter";
+import { Category } from "@/interfaces/post";
 
 vi.mock("@/components/ui/select", () => ({
   Select: ({
     children,
     onValueChange,
+    value,
   }: {
     children: React.ReactNode;
-    onValueChange: (value: string) => void;
-  }) => (
-    <div>
-      <button onClick={() => onValueChange("dev")}>{children}</button>
-    </div>
+    onValueChange: (value: Category) => void;
+    value: Category;
+  }) => <div>{children}</div>,
+
+  SelectValue: ({ placeholder }: { placeholder?: string }) => (
+    <span>{placeholder}</span>
   ),
 
   SelectTrigger: ({ children }: { children: React.ReactNode }) => (
-    <button>{children}</button>
-  ),
-
-  SelectValue: ({ children }: { children: React.ReactNode }) => (
-    <span>{children}</span>
+    <div role="combobox">{children}</div>
   ),
 
   SelectContent: ({ children }: { children: React.ReactNode }) => (
@@ -39,7 +38,7 @@ vi.mock("@/components/ui/select", () => ({
     value,
   }: {
     children: React.ReactNode;
-    value: string;
+    value: Category;
   }) => (
     <div role="option" data-value={value}>
       {children}
@@ -84,7 +83,7 @@ describe("Search and Filter Integration", () => {
 
   it("카테고리 선택 시 handleCategoryChange가 호출되어야 한다.", async () => {
     // 1. Select 트리거 클릭
-    const selectTrigger = screen.getByRole("listbox"); // <div role="listbox"></div>
+    const selectTrigger = screen.getByRole("combobox"); // <div role="combobox"></div>
     screen.debug(selectTrigger);
     await user.click(selectTrigger);
 

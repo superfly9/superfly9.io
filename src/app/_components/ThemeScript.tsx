@@ -8,12 +8,12 @@ declare global {
 
 function ThemeScript() {
   const script = `(function () {
-    const [SYSTEM, DARK, LIGHT] = ["system", "dark", "light"];
+    const [DARK, LIGHT] = ["dark", "light"];
     const storageKey = "${STORAGE_KEY}";
-    const media = matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = matchMedia("(prefers-color-scheme: light)");
 
     function resolveMode(mode) {
-      return mode === SYSTEM ? (media.matches ? DARK : LIGHT) : mode;
+      return localStorage.getItem(storageKey) === 'dark'? 'dark' :'light';
     }
 
     function applyMode(mode) {
@@ -23,33 +23,27 @@ function ThemeScript() {
       root.classList.remove(
         "mode-dark",
         "mode-light",
-        "mode-system",
         "dark",
         "light"
       );
-
       // 커스텀 스타일 클래스
       root.classList.add("mode-" + mode); //  mode-dark
-      if (mode === SYSTEM) root.classList.add("mode-system");
-
       // Tailwind 유틸리티 트리거 클래스
       root.classList.add(resolved); // dark or light
-      if (resolved === DARK) root.classList.add("dark");
-      else root.classList.remove("dark");
     }
 
     // 초기 실행
-    const mode = localStorage.getItem(storageKey) ?? SYSTEM;
+    const mode = localStorage.getItem(storageKey);
     applyMode(mode);
 
     // 외부에서 접근 가능하도록
     window.updateDOM = () => {
-      const mode = localStorage.getItem(storageKey) ?? SYSTEM;
+      const mode = localStorage.getItem(storageKey) === 'dark'? 'dark' :'light';
       applyMode(mode);
     };
 
     // 시스템 모드 변경 감지
-    media.addEventListener("change", window.updateDOM);
+    mediaQuery.addEventListener("change", window.updateDOM);
   })()`;
 
   return <script dangerouslySetInnerHTML={{ __html: script }} />;

@@ -2,7 +2,7 @@ import Footer from "@/app/_components/footer";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import cn from "classnames";
-import { ThemeSwitcher } from "@/app/_components/theme-switcher";
+import ThemeSwitcher from "@/app/_components/theme-switcher";
 import ThemeScript from "@/app/_components/ThemeScript";
 import "./globals.css";
 
