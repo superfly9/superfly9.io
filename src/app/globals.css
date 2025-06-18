@@ -2,46 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-.switch {
-  all: unset;
+.toggle-switch {
   position: absolute;
   right: 20px;
-  top: 70px;
-  display: inline-block;
-  color: currentColor;
-  border-radius: 50%;
-  box-sizing: border-box;
-  border: 1px dashed currentColor;
+  top: 2rem;
+  width: 48px;
+  height: 28px;
+  background: #222;
+  border-radius: 14px;
+  border: 2px solid #7eb6ff;
   cursor: pointer;
-  --size: 24px;
-  height: var(--size);
-  width: var(--size);
-  transition: all 0.3s ease-in-out 0s !important;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  padding: 0;
 }
 
-.mode-dark .switch {
-  box-shadow: 0 0 50px 10px yellow;
-  background-color: yellow;
-  border: none;
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  background: #111;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: left 0.3s, background 0.3s, color 0.3s;
 }
 
-.mode-light .switch {
-  box-shadow: calc(var(--size) / 4) calc(var(--size) / -4) calc(var(--size) / 8)
-    inset yellow;
-  border: none;
-  background-color: transparent;
-  animation: rotateAtChange linear 0.5s;
+.slider.dark {
+  left: 20px;
+  background: #222;
+  color: #fff;
 }
 
-@keyframes rotateAtChange {
-  40% {
-    transform: rotate(-15deg);
-  }
-  80% {
-    transform: rotate(10deg);
-  }
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
+.slider.light {
+  left: 0px;
+  background: transparent;
+  color: #ffe066;
 }

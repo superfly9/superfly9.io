@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ColorSchemePreference, STORAGE_KEY } from "@/constants/theme";
+import { PiSunFill, PiMoonFill } from "react-icons/pi";
 
 const DEFAULT_MODE = "light";
 const ThemeSwitcher = () => {
@@ -23,7 +24,13 @@ const ThemeSwitcher = () => {
     setMode(next);
   };
 
-  return <button className="switch" onClick={handleModeSwitch} />;
+  return (
+    <button className="toggle-switch" onClick={handleModeSwitch}>
+      <span className={`slider ${mode === "dark" ? "dark" : "light"}`}>
+        {mode === "dark" ? <PiMoonFill /> : <PiSunFill />}
+      </span>
+    </button>
+  );
 };
 
 export default ThemeSwitcher;
