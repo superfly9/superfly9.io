@@ -49,7 +49,7 @@ export function useSearchAndFilter(posts: Post[]) {
       result = result.filter(
         post =>
           post.title.toLowerCase().includes(searchLower) ||
-          post.excerpt.toLowerCase().includes(searchLower)
+          post.preview.toLowerCase().includes(searchLower)
       );
     }
 
