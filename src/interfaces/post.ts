@@ -4,11 +4,11 @@ export type Post = {
   title: string;
   date: string;
   coverImage: string;
-  excerpt: string;
+  PostPreview: string;
   ogImage?: {
     url: string;
   };
   category: Category
   content: string;
-  preview?: boolean;
+  preview: string;
 };

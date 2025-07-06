@@ -7,6 +7,7 @@ interface PostCardProps {
 }
 
 export function PostCard({ post }: PostCardProps) {
+  console.log(post);
   return (
     <article className="rounded-lg border p-4 hover:border-gray-400 transition-colors">
       <Link href={`/posts/${post.category}/${post.slug}`}>
@@ -15,9 +16,9 @@ export function PostCard({ post }: PostCardProps) {
       <div className="text-sm text-gray-500 mb-2">
         <span>{format(new Date(post.date), "MMMM d, yyyy")}</span>
         <span className="mx-2">•</span>
-        <span>{post.author.name}</span>
+        <span>{post.category}</span>
       </div>
-      {post.excerpt && <p className="text-gray-600 mb-4">{post.excerpt}</p>}
+      <p className="text-gray-600 mb-4">{post.preview}</p>
     </article>
   );
 }
