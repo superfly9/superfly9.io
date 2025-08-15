@@ -16,7 +16,6 @@ function ThemeScript() {
       const resolvedMode = mode === 'dark' ? 'dark' : 'light';
 
       root.classList.remove("mode-dark", "mode-light", "dark", "light");
-      root.classList.add("mode-" + resolvedMode);
       root.classList.add(resolvedMode);
     }
 
