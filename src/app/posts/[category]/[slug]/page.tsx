@@ -19,7 +19,6 @@ export default async function Post({ params }: Params) {
   }
 
   const content = await markdownToHtml(post.content || "");
-
   return (
     <main>
       <Alert preview={post.preview} />
@@ -59,7 +58,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title,
     openGraph: {
       title,
-      images: [post.ogImage.url],
+      images: [post.ogImage?.url || ""],
     },
   };
 }

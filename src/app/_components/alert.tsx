@@ -3,7 +3,7 @@ import { EXAMPLE_PATH } from "@/lib/constants";
 import cn from "classnames";
 
 type Props = {
-  preview?: boolean;
+  preview: string;
 };
 
 const Alert = ({ preview }: Props) => {

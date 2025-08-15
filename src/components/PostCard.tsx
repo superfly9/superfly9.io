@@ -7,7 +7,6 @@ interface PostCardProps {
 }
 
 export function PostCard({ post }: PostCardProps) {
-  console.log(post);
   return (
     <article className="rounded-lg border p-4 hover:border-gray-400 transition-colors">
       <Link href={`/posts/${post.category}/${post.slug}`}>
