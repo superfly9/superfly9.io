@@ -4,8 +4,8 @@
 
 .toggle-switch {
   position: absolute;
-  right: 20px;
-  top: 2rem;
+  right: 0;
+  top: 1rem;
   width: 48px;
   height: 28px;
   background: #222;

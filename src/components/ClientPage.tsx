@@ -20,7 +20,7 @@ export function ClientPage({ initialPosts, categories }: ClientPageProps) {
   } = useSearchAndFilter(initialPosts);
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="py-8">
       <h1 className="text-3xl font-bold mb-8">superfly9</h1>
 
       <SearchFilter

@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import cn from "classnames";
 import ThemeSwitcher from "@/app/_components/theme-switcher";
 import ThemeScript from "@/app/_components/ThemeScript";
+import Container from "@/app/_components/container";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -81,8 +82,12 @@ export default function RootLayout({
       <body
         className={cn(inter.className, "dark:bg-slate-900 dark:text-slate-400")}
       >
-        <ThemeSwitcher />
-        <div className="min-h-screen">{children}</div>
+        <div className="min-h-screen">
+          <Container>
+            <ThemeSwitcher />
+            {children}
+          </Container>
+        </div>
         <Footer />
       </body>
     </html>
