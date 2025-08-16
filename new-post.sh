@@ -54,6 +54,7 @@ date: "$DATE"
 author:
   name: 승찬
   picture: "/assets/blog/authors/jj.jpeg"
+coverImage: "/assets/blog/preview/cover.jpg"
 ---
 
 Write your content here...
