@@ -61,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="light">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <ThemeScript />
         <link

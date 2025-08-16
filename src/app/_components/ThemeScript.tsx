@@ -2,7 +2,7 @@ import { STORAGE_KEY } from "@/constants/theme";
 
 declare global {
   interface Window {
-    updateDOM: () => void;
+    __themeUpdateDOM?: () => void;
   }
 }
 
@@ -15,17 +15,23 @@ function ThemeScript() {
       const root = document.documentElement;
       const resolvedMode = mode === 'dark' ? 'dark' : 'light';
 
-      root.classList.remove("mode-dark", "mode-light", "dark", "light");
-      root.classList.add(resolvedMode);
+      // 현재 클래스와 다를 때만 변경
+      if (!root.classList.contains(resolvedMode)) {
+        if (resolvedMode === 'dark') {
+          root.classList.replace('light', 'dark');
+        } else {
+          root.classList.replace('dark', 'light');
+        }
+      }
     }
 
-    // 초기 실행
+    // 초기 실행 - 저장된 설정이 있고 기본값과 다를 때만 변경
     const savedMode = localStorage.getItem(storageKey);
-    const initialMode = savedMode === 'dark' ? 'dark' : 'light';
-    applyMode(initialMode);
+    if (savedMode === 'dark') {
+      applyMode('dark');
+    }
 
-    // 외부에서 접근 가능하도록
-    window.updateDOM = () => {
+    window.__themeUpdateDOM = () => {
       const mode = localStorage.getItem(storageKey) === 'dark' ? 'dark' : 'light';
       applyMode(mode);
     };
